@@ -7,6 +7,8 @@ def spawn_target x, y
     path: 'sprites/target.png'
   }
 end
+
+
 def tick args
   args.state.player ||=  {
     x: 120,
@@ -75,7 +77,14 @@ end
 
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
+
+    args.state.targets.each do |target|
+      if args.state.geometry.intersect_rect?(target, fireball)
+        puts "fireball made contact!"
+      end
+    end
   end
+
 
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
 
