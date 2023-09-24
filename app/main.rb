@@ -90,6 +90,17 @@ end
     text: "Score: #{args.state.score}",
     size_enum: 4
   } 
+
+  args.outputs.debug << {
+    x: 40,
+    y: args.grid.h - 80,
+    text: "Fireballs: #{args.state.fireballs.length}",
+  }.label!
+  args.outputs.debug << {
+    x: 40,
+    y: args.grid.h - 100,
+    text: "1st fireball x pos: #{args.state.fireballs.first&.x}",
+  }.label!
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
 
 end
