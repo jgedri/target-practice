@@ -1,9 +1,10 @@
-def spawn_target x, y
+def spawn_target(args)
+  size = 64
   {
-    x: x,
-    y: y,
-    w: 64,
-    h: 64,
+    x: rand(args.grid.w * 0.4) + args.grid.w * 0.6,
+    y: rand(args.grid.h - size * 2) + size,
+    w: size,
+    h: size,
     path: 'sprites/target.png'
   }
 end
@@ -21,18 +22,8 @@ def tick args
   
   args.state.fireballs ||= [] 
   args.state.targets ||= [
-      spawn_target(800, 120),
-      
-      spawn_target(920, 600),
-      spawn_target(1020, 320),
+    spawn_target(args), spawn_target(args), spawn_target(args)
   
-    {
-      x: 920,
-      y: 600,
-      w: 64,
-      h: 64,
-      path: 'sprites/target.png',
-    },
   ]
   
  if args.inputs.left
@@ -80,11 +71,15 @@ end
 
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
-        puts "fireball made contact!"
+        target.dead = true
+        fireball.dead = true
+        args.state.targets << spawn_target(args)
       end
     end
   end
 
+  args.state.targets.reject! { |t| t.dead }
+  args.state.fireballs.reject! { |f| f.dead }
 
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
 
