@@ -1,3 +1,5 @@
+FPS = 60
+
 def spawn_target(args)
   size = 64
   {
@@ -9,6 +11,18 @@ def spawn_target(args)
   }
 end
 
+def fire_input?(args)
+  args.inputs.keyboard.key_down.z
+
+end
+
+def handle_player_movement(args)
+  if args.inputs.left
+    args.state.player.x -= args.state.player.speed
+   elsif args.inputs.right
+    args.state.player.x += args.state.player.speed
+  end
+end
 
 def tick args
   args.state.player ||=  {
@@ -52,19 +66,12 @@ def tick args
       size_enum: 2,
     }
 
-    if args.inputs.keyboard.key_down.z ||
-        args.inputs.keyboard.key_down.j ||
-        args.inputs.controller_one.key_down.a
-      $gtk.reset
-    end  
+    
+       
 
     return
   end
- if args.inputs.left
-  args.state.player.x -= args.state.player.speed
- elsif args.inputs.right
-  args.state.player.x += args.state.player.speed
- end
+ 
 
  if args.inputs.up
   args.state.player.y += args.state.player.speed
