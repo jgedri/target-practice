@@ -79,7 +79,7 @@ end
     fireball.x += args.state.player.speed + 2
 
     args.state.targets.each do |target|
-      if args.state.geometry.intersect_rect?(target, fireball)
+      if args.geometry.intersect_rect?(target, fireball)
         puts "fireball made contact!"
       end
     end
