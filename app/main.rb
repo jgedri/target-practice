@@ -27,7 +27,39 @@ def tick args
   ]
 
   args.state.score ||= 0
-  
+  args.state.timer ||= 30 * 60
+
+  args.state.timer -= 1
+
+  if args.state.timer < 0
+    labels = []
+    labels << {
+      x: 40,
+      y: args.grid.h - 40,
+      text: "Game Over!",
+      size_enum: 10,
+    }
+    labels << {
+      x: 40,
+      y: args.grid.h - 90,
+      text: "Score: #{args.state.score}",
+      size_enum: 4,
+    }
+    labels << {
+      x: 40,
+      y: args.grid.h - 132,
+      text: "Fire to restart!",
+      size_enum: 2,
+    }
+
+    if args.inputs.keyboard.key_down.z ||
+        args.inputs.keyboard.key_down.j ||
+        args.inputs.controller_one.key_down.a
+      $gtk.reset
+    end  
+
+    return
+  end
  if args.inputs.left
   args.state.player.x -= args.state.player.speed
  elsif args.inputs.right
@@ -70,6 +102,11 @@ end
 
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
+
+    if fireball.x > args.grid.w
+      fireball.dead = true
+      next
+    end
 
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
