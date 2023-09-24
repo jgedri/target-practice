@@ -140,6 +140,17 @@ end
   }.label!
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
 
+  labels = []
+  
+  labels << {
+    x: args.grid.w - 40,
+    y: args.grid.h - 40,
+    text: "Time Left: #{(args.state.timer / 60).round}",
+    size_enum: 2,
+    alignment_enum: 2,
+  }
+  args.outputs.labels << labels
+
 end
 
 $gtk.reset
