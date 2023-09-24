@@ -25,6 +25,8 @@ def tick args
     spawn_target(args), spawn_target(args), spawn_target(args)
   
   ]
+
+  args.state.score ||= 0
   
  if args.inputs.left
   args.state.player.x -= args.state.player.speed
@@ -73,6 +75,7 @@ end
       if args.geometry.intersect_rect?(target, fireball)
         target.dead = true
         fireball.dead = true
+        args.state.score += 1
         args.state.targets << spawn_target(args)
       end
     end
@@ -81,6 +84,12 @@ end
   args.state.targets.reject! { |t| t.dead }
   args.state.fireballs.reject! { |f| f.dead }
 
+  args.outputs.labels << {
+    x: 40,
+    y: args.grid.h - 40,
+    text: "Score: #{args.state.score}",
+    size_enum: 4
+  } 
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
 
 end
