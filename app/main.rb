@@ -28,6 +28,10 @@ def tick args
 
   args.state.score ||= 0
   
+  rankings = []
+  rankings << {
+    
+  }
  if args.inputs.left
   args.state.player.x -= args.state.player.speed
  elsif args.inputs.right
