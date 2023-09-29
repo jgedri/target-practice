@@ -60,15 +60,12 @@ def tick args
   ]
 
   args.state.score ||= 0
-  args.state.timer ||= 30 * 60
+  args.state.timer ||= 30 * FPS
 
   args.state.timer -= 1
 
-   
-
-    
-       
-
+  if args.state.timer < 0 
+    game_over_tick(args)
     return
   end
  
