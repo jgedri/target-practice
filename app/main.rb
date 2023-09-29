@@ -12,25 +12,37 @@ def spawn_target(args)
 end
 
 def fire_input?(args)
-<<<<<<< HEAD
   args.inputs.keyboard.key_down.z ||
       args.inputs.keyboard.key_down.j ||
       args.inputs.controller_one.key_down.a
 end
-=======
-  args.inputs.keyboard.key_down.z
 
-end
+def game_over_tick(args)
+  labels = []
+  labels << {
+    x: 40,
+    y: args.grid.h - 40,
+    text: "Game Over!",
+    size_enum: 10,
+  }
+  labels << {
+      x: 40,
+      y: args.grid.h - 90,
+      text: "Score: #{args.state.score}",
+      size_enum: 4,
+    }
 
-def handle_player_movement(args)
-  if args.inputs.left
-    args.state.player.x -= args.state.player.speed
-   elsif args.inputs.right
-    args.state.player.x += args.state.player.speed
+    labels << {
+      x: 40,
+      y: args.grid.h - 132,
+      text: "Fire to restart!",
+      size_enum: 2,
+    }
+    args.outputs.labels
+  if args.state.timer < -30 && fire_input?(args)
+    $gtk.reset
   end
 end
-
->>>>>>> 91e7d20bc7e6a48540a4d18045c5b6a0bf21060e
 def tick args
   args.state.player ||=  {
     x: 120,
@@ -52,26 +64,7 @@ def tick args
 
   args.state.timer -= 1
 
-  if args.state.timer < 0
-    labels = []
-    labels << {
-      x: 40,
-      y: args.grid.h - 40,
-      text: "Game Over!",
-      size_enum: 10,
-    }
-    labels << {
-      x: 40,
-      y: args.grid.h - 90,
-      text: "Score: #{args.state.score}",
-      size_enum: 4,
-    }
-    labels << {
-      x: 40,
-      y: args.grid.h - 132,
-      text: "Fire to restart!",
-      size_enum: 2,
-    }
+   
 
     
        
