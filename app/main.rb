@@ -91,10 +91,10 @@ def tick args
   args.state.timer ||= 30 * FPS
 
   if args.state.timer == 0
-    args.audio[music].paused = true
+    args.audio[:music].paused = true
     args.outputs.sounds << "sounds/game-over.wav"
   end
-  
+
   args.state.timer -= 1
 
   if args.state.timer < 0 
