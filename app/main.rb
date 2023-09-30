@@ -68,6 +68,10 @@ labels << {
 end
 
 def tick args
+  if args.state.tick_count == 1
+    args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
+  end   
+
   args.state.player ||=  {
     x: 120,
     y: 280,
@@ -85,6 +89,11 @@ def tick args
 
   args.state.score ||= 0
   args.state.timer ||= 30 * FPS
+
+  if args.state.timer == 0
+    args.audio[:music].paused = true
+    args.outputs.sounds << "sounds/game-over.wav"
+  end
 
   args.state.timer -= 1
 
@@ -117,6 +126,7 @@ end
   end
 
    if fire_input?(args)    
+    args.outputs.sounds << "sounds/fireball.wav"
     args.state.fireballs << {
       x: args.state.player.x + args.state.player.w - 12,
       y: args.state.player.y + 10,
@@ -136,6 +146,7 @@ end
 
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
+        args.outputs.sounds << "sounds/target.wav"
         target.dead = true
         fireball.dead = true
         args.state.score += 1
