@@ -26,6 +26,20 @@ def game_over_tick(args)
     args.state.saved_high_score = true
   end
   
+labels = []
+  labels << {
+    x: 40,
+    y: args.grid.h - 40,
+    text: "Game Over!",
+    size_enum: 10,
+  }
+labels << {
+      x: 40,
+      y: args.grid.h - 90,
+      text: "Score: #{args.state.score}",
+      size_enum: 4,
+    }
+
   if args.state.score > args.state.high_score
     labels << {
       x: 260,
@@ -39,21 +53,7 @@ def game_over_tick(args)
       y: args.grid.h - 90,
       size_enum: 3,
     }
-  end  
-
-  labels = []
-  labels << {
-    x: 40,
-    y: args.grid.h - 40,
-    text: "Game Over!",
-    size_enum: 10,
-  }
-  labels << {
-      x: 40,
-      y: args.grid.h - 90,
-      text: "Score: #{args.state.score}",
-      size_enum: 4,
-    }
+  end   
 
     labels << {
       x: 40,
@@ -66,6 +66,7 @@ def game_over_tick(args)
     $gtk.reset
   end
 end
+
 def tick args
   args.state.player ||=  {
     x: 120,
