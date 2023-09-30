@@ -68,6 +68,10 @@ labels << {
 end
 
 def tick args
+  if args.state.tick_count == 1
+    args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
+  end   
+
   args.state.player ||=  {
     x: 120,
     y: 280,
