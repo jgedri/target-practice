@@ -17,7 +17,10 @@ def fire_input?(args)
       args.inputs.controller_one.key_down.a
 end
 
+HIGH_SCORE_FILE = "high-score.txt"
 def game_over_tick(args)
+  args.state.high_score ||= args.gtk.read_file(HIGH_SCORE_FILE).to_i
+
   labels = []
   labels << {
     x: 40,
@@ -92,7 +95,7 @@ end
     args.state.player.y = 0
   end
 
-       
+   if fire_input?(args)    
     args.state.fireballs << {
       x: args.state.player.x + args.state.player.w - 12,
       y: args.state.player.y + 10,
