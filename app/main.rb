@@ -72,6 +72,14 @@ def tick args
     args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
   end   
 
+  # Pause when "P" is pressed.
+  if args.input.keyboard.key_down.p
+    if args.audio[:music].paused
+      args.audio[:music].paused = false
+    else
+      args.audio[:music].paused = true
+  end
+    
   args.state.player ||=  {
     x: 120,
     y: 280,
