@@ -9,7 +9,11 @@ def spawn_target(args)
   }
 end
 
-
+def fire_input?(args)
+  args.inputs.keyboard.key_down.z ||
+      args.inputs.keyboard.key_down.j ||
+      args.inputs.controller_one.key_down.a
+end
 def tick args
   args.state.player ||=  {
     x: 120,
@@ -56,9 +60,7 @@ end
     args.state.player.y = 0
   end
 
-  if args.inputs.keyboard.key_down.z ||
-      args.inputs.keyboard.key_down.j ||
-      args.inputs.controller_one.key_down.a
+       
     args.state.fireballs << {
       x: args.state.player.x + args.state.player.w - 12,
       y: args.state.player.y + 10,
