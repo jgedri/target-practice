@@ -78,8 +78,9 @@ def tick args
       args.audio[:music].paused = false
     else
       args.audio[:music].paused = true
+    end  
   end
-    
+
   args.state.player ||=  {
     x: 120,
     y: 280,
