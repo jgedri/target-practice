@@ -1,7 +1,7 @@
-#devid=myname
+#devid=tigersong
 #devtitle=My Name
 #gameid=mygame
-#gametitle=My Game
+#gametitle=Target Practice
 #version=0.1
 #icon=metadata/icon.png
 
