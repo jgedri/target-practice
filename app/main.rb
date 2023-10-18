@@ -65,22 +65,44 @@ labels << {
   if args.state.timer < -30 && fire_input?(args)
     $gtk.reset
   end
-end
 
+  def gameplay_tick(args)
+    args.outputs.solids << {
+      x: 0,
+      y: 0,
+      w: args.grid.w,
+      h: args.grid.h,
+      r: 92,
+      g: 120,
+      b: 230,
+    }
+
+    args.state.player ||=  {
+    x: 120,
+    y: 280,
+    w: 200,
+    h: 80,
+    speed: 12,
+    path: 'sprites/misc/dragon-0.png',
+    }
+
+    player_sprite_index = 0.frame_index(count: 6, hold_for: 8, repeat: true)
+    args.state.player.path = "sprites/misc/dragon-#{player_sprite_index}.png"
+
+    args.state.fireballs ||= [] 
+  args.state.targets ||= [
+    spawn_target(args), spawn_target(args), spawn_target(args)
+  
+  ]
+  args.state.score ||= 0
+
+  end
 def tick args
   if args.state.tick_count == 1
     args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
   end   
 
-  args.outputs.solids << {
-    x: 0,
-    y: 0,
-    w: args.grid.w,
-    h: args.grid.h,
-    r: 92,
-    g: 120,
-    b: 230,
-  }
+
 
   # Pause when "P" is pressed.
   if args.inputs.keyboard.key_down.p
@@ -91,25 +113,9 @@ def tick args
     end  
   end
 
-  args.state.player ||=  {
-    x: 120,
-    y: 280,
-    w: 200,
-    h: 80,
-    speed: 12,
-    path: 'sprites/misc/dragon-0.png',
-  }
-
-  player_sprite_index = 0.frame_index(count: 6, hold_for: 8, repeat: true)
-  args.state.player.path = "sprites/misc/dragon-#{player_sprite_index}.png"
   
-  args.state.fireballs ||= [] 
-  args.state.targets ||= [
-    spawn_target(args), spawn_target(args), spawn_target(args)
-  
-  ]
 
-  args.state.score ||= 0
+  
   args.state.timer ||= 30 * FPS
 
   if args.state.timer == 0
