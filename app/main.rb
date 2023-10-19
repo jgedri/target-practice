@@ -102,8 +102,20 @@ labels << {
   if args.state.timer == 0
     args.audio[:music].paused = true
     args.outputs.sounds << "sounds/game-over.wav"
+    args.state.scene = "game_over"
+    return
   end
 
+  if fire_input?(args)    
+    args.outputs.sounds << "sounds/fireball.wav"
+    args.state.fireballs << {
+      x: args.state.player.x + args.state.player.w - 12,
+      y: args.state.player.y + 10,
+      w: 32,
+      h: 32,
+      path: 'sprites/fireball.png',
+    }
+  end
 end
 def tick args
   if args.state.tick_count == 1
@@ -155,16 +167,7 @@ end
     args.state.player.y = 0
   end
 
-   if fire_input?(args)    
-    args.outputs.sounds << "sounds/fireball.wav"
-    args.state.fireballs << {
-      x: args.state.player.x + args.state.player.w - 12,
-      y: args.state.player.y + 10,
-      w: 32,
-      h: 32,
-      path: 'sprites/fireball.png',
-    }
-  end
+   
 
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
